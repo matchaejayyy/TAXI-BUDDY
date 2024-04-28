@@ -1,0 +1,157 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/components/buttons.dart';
+import 'package:flutter_application_1/Components/My_Textfield.dart';
+
+
+
+class RegisterPage extends StatefulWidget {
+  final Function()? onTap;
+  const RegisterPage({super.key, required this.onTap});
+
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  // Controllers
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final phoneNumberlController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  
+
+  // Sign up method
+  void signUserUp() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
+    // creating user 
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      //remove loading thingi
+      Navigator.pop(context); 
+      
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context); 
+      String message;
+      // worng email
+      if (e.code == 'user-not-found') {
+        message = 'Invalid username or password.';
+      // wong password
+      } else if (e.code == 'wrong-password') {
+        message = 'Invalid username or password.'; // Avoid logging password
+      } else {
+        message = 'Invalid Login Credentials. Please try again.';
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.yellow,
+      body: SafeArea(
+        child: Center(
+          child:SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height:10),
+                const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50),
+                child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                  'SIGN UP',
+                    style: TextStyle(
+                      color: Colors.black, 
+                      fontWeight: FontWeight.bold, fontSize: 30),
+                  ),
+                ],
+                ),
+              ),
+
+              const SizedBox(height:50),
+              
+                MyTextfield(
+                  controller: firstNameController,
+                  hintText: 'First Name',
+                  obscureText: false,
+                ),
+
+                const SizedBox(height:20),
+              
+                MyTextfield(
+                  controller: lastNameController,
+                  hintText: 'Last Name',
+                  obscureText: false,
+                ),
+              
+            
+        
+                const SizedBox(height:15),
+              
+                MyTextfield(
+                  controller: emailController,
+                  hintText: 'Email',
+                  obscureText: false,
+                ),
+
+                const SizedBox(height:15),
+
+                
+                
+                MyTextfield(
+                  controller: phoneNumberlController,
+                  hintText: 'Phone Number',
+                  obscureText: false,
+                ),
+
+                const SizedBox(height:15),
+                MyTextfield(
+                  controller: passwordController,
+                  hintText: 'Password',
+                  obscureText: true,
+                ),
+
+                const SizedBox(height:15),
+                MyButton(
+                  onTap: signUserUp, label: '',
+                
+
+                ),
+                const SizedBox(height:15),
+              
+             
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+    
+  }
+}
+                
+      
+
+
+
+
