@@ -25,7 +25,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           content: Text('A password reset link has been sent to your email.'),
         ),
       );
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Invalid Email"), // Display the error message
