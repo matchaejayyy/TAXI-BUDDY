@@ -23,5 +23,5 @@ class AuthService {
   return await FirebaseAuth.instance.signInWithCredential(Credential);
   }
 
-  sendPasswordResetLink(String text) {}
+  
 }

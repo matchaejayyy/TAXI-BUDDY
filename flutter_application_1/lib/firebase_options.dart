@@ -67,6 +67,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '815076675923',
     projectId: 'taxi-buddy-874a2',
     storageBucket: 'taxi-buddy-874a2.appspot.com',
+    androidClientId: '815076675923-8cu8s9agnh04f7rr443dvqqrpkh20645.apps.googleusercontent.com',
+    iosClientId: '815076675923-3cru77l9rjp3f1qejt0odifg91uhth4f.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterApplication1',
   );
 
@@ -76,6 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '815076675923',
     projectId: 'taxi-buddy-874a2',
     storageBucket: 'taxi-buddy-874a2.appspot.com',
+    androidClientId: '815076675923-8cu8s9agnh04f7rr443dvqqrpkh20645.apps.googleusercontent.com',
+    iosClientId: '815076675923-0fjo5vqfjie7r6m6vql0vr9r85i98mer.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterApplication1.RunnerTests',
   );
 }
