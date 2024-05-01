@@ -40,6 +40,7 @@ class _LoginPageState extends State<LoginPage> {
         password: passwordController.text,
       );
       //remove loading thingi
+      // ignore: use_build_context_synchronously
       Navigator.pop(context); 
       
     } on FirebaseAuthException catch (e) {
@@ -195,19 +196,9 @@ class _LoginPageState extends State<LoginPage> {
                     SquareTile(
                       onTap: () => AuthService().signInWithGoogle(),
                       imagePath: 'lib/logos/Googlelogo.png'),
-
-                    SizedBox(width: 15),
-
-                    //Apple logo
-                    SquareTile(
-                      onTap: () {},
-                      imagePath: 'lib/logos/Applelogo.png')
                   ],
                 )
-                
-              
 
-            
              
             ],
           ),
