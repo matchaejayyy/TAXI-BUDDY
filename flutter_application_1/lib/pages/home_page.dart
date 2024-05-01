@@ -3,8 +3,9 @@ import 'package:flutter_application_1/pages/activity_page.dart';
 import 'package:flutter_application_1/pages/map_page.dart';
 import 'package:flutter_application_1/pages/profile_page.dart';
 
+
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -252,28 +253,28 @@ int selectedIndex = 0;
           // Navigate to the Home page
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomePage()),
+            MaterialPageRoute(builder: (context) => const HomePage()),
           );
           break;
         case 1:
           // Navigate to the Map page
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => MapPage()),
+            MaterialPageRoute(builder: (context) => TaxiBuddyHomePage()),
           );
           break;
         case 2:
           // Navigate to the Activity page
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ActivityPage()),
+            MaterialPageRoute(builder: (context) => const ActivityPage()),
           );
           break;
         case 3:
           // Navigate to the Profile page
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ProfilePage()),
+            MaterialPageRoute(builder: (context) => const ProfilePage()),
           );
           break;
       }

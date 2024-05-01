@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/Components/Buttons.dart';
 import 'package:flutter_application_1/Components/My_Textfield.dart';
 import 'package:flutter_application_1/Components/square_tile.dart';
@@ -132,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ForgotPasswordScreen(),
+                              builder: (context) => const ForgotPasswordScreen(),
                             ),
                           );
                         },
@@ -159,8 +158,8 @@ class _LoginPageState extends State<LoginPage> {
 
                 const SizedBox(height: 30),
 
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal:25),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal:25),
                   child: Row(
                     children: [
                       Expanded(
@@ -170,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        padding: EdgeInsets.symmetric(horizontal: 10),
                         child: Text('Or Continue With',
                         style: TextStyle (fontWeight: FontWeight.bold))
                         
@@ -196,7 +195,7 @@ class _LoginPageState extends State<LoginPage> {
                       onTap: () => AuthService().signInWithGoogle(),
                       imagePath: 'lib/logos/Googlelogo.png'),
 
-                    SizedBox(width: 15),
+                    const SizedBox(width: 15),
 
                     //Apple logo
                     SquareTile(

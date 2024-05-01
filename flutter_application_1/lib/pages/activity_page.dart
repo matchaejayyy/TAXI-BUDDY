@@ -4,7 +4,7 @@ import 'package:flutter_application_1/pages/map_page.dart';
 import 'package:flutter_application_1/pages/profile_page.dart';
 
 class ActivityPage extends StatefulWidget {
-  const ActivityPage({Key? key}) : super(key: key);
+  const ActivityPage({super.key});
 
   @override
   State<ActivityPage> createState() => _ActivityPageState();
@@ -16,7 +16,6 @@ int selectedIndex = 2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
       body: Column(
         children: [
           Container( //main children 1 on the upper yellow
@@ -25,11 +24,11 @@ int selectedIndex = 2;
             width: double.infinity, // Set width to fill the entire screen
             height: 100,
             decoration: const BoxDecoration(color: Colors.amber),
-            child: Column(
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
+                Text(
                     "ACTIVITY",
                     style: TextStyle(
                       fontSize: 28,
@@ -38,7 +37,7 @@ int selectedIndex = 2;
                     ),
                   ),
 
-                const SizedBox(height: 10,),
+                SizedBox(height: 10,),
                 Row(
                   children: [
                    
@@ -229,28 +228,28 @@ int selectedIndex = 2;
           // Navigate to the Home page
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => HomePage()),
+            MaterialPageRoute(builder: (context) => const HomePage()),
           );
           break;
         case 1:
           // Navigate to the Map page
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => MapPage()),
+            MaterialPageRoute(builder: (context) => const TaxiBuddyHomePage()),
           );
           break;
         case 2:
           // Navigate to the Activity page
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ActivityPage()),
+            MaterialPageRoute(builder: (context) => const ActivityPage()),
           );
           break;
         case 3:
           // Navigate to the Profile page
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ProfilePage()),
+            MaterialPageRoute(builder: (context) => const ProfilePage()),
           );
           break;
       }

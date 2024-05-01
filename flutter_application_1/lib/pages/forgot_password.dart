@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 
 class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({super.key});
+
   @override
   _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();
 }
@@ -27,7 +29,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       );
     } on FirebaseAuthException {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Invalid Email"), // Display the error message
         ),
       );
@@ -73,9 +75,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: MaterialButton(
-                onPressed: passwordReset, // Call the function directly on press
+                onPressed: passwordReset,
+                color: Colors.red, // Call the function directly on press
                 child: const Text("Reset Password"),
-                color: Colors.red,
               ),
             ),
             
