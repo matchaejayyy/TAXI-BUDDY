@@ -15,7 +15,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_application_1/pages/stopwatchoverlay.dart';
 
-   double totalDistance = 0.0;
+double totalDistance = 0.0;
 
 typedef void OnCoordinatesFetched(LatLng startLocation, LatLng endLocation);
 
@@ -41,11 +41,14 @@ class _TaxiBuddyHomePageState extends State<TaxiBuddyHomePage> {
       SearchLocationScreen(
         onCoordinatesFetched: (startLocation, endLocation) {
           setState(() {
-            _tabViews[1] = MapPage(startLocation: startLocation, endLocation: endLocation);
+            _tabViews[1] =
+                MapPage(startLocation: startLocation, endLocation: endLocation);
           });
         },
       ),
-      MapPage(startLocation: LatLng(10.738175, 122.541184), endLocation: LatLng(10.713898, 122.552384)),
+      MapPage(
+          startLocation: LatLng(10.738175, 122.541184),
+          endLocation: LatLng(10.713898, 122.552384)),
     ];
   }
 
@@ -63,90 +66,90 @@ class _TaxiBuddyHomePageState extends State<TaxiBuddyHomePage> {
         body: TabBarView(
           children: _tabViews,
         ),
-        
         bottomNavigationBar: SizedBox(
-  height: 60,
-  child: BottomNavigationBar(
-    onTap: (index) {
-      setState(() {
-        selectedIndex = index;
-      });
+          height: 60,
+          child: BottomNavigationBar(
+            onTap: (index) {
+              setState(() {
+                selectedIndex = index;
+              });
 
-      // Navigate to the corresponding page based on the selected index
-      switch (index) {
-        case 0:
-          // Navigate to the Home page
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
-          );
-          break;
-        case 1:
-          // Navigate to the Map page
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const TaxiBuddyHomePage()),
-          );
-          break;
-        case 2:
-          // Navigate to the Activity page
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ActivityPage()),
-          );
-          break;
-        case 3:
-          // Navigate to the Profile page
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ProfilePage()),
-          );
-          break;
-      }
-    },
-    currentIndex: selectedIndex,
-    items: const [
-      BottomNavigationBarItem(
-        icon: Icon(Icons.home),
-        label: 'Home',
+              // Navigate to the corresponding page based on the selected index
+              switch (index) {
+                case 0:
+                  // Navigate to the Home page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomePage()),
+                  );
+                  break;
+                case 1:
+                  // Navigate to the Map page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const TaxiBuddyHomePage()),
+                  );
+                  break;
+                case 2:
+                  // Navigate to the Activity page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ActivityPage()),
+                  );
+                  break;
+                case 3:
+                  // Navigate to the Profile page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProfilePage()),
+                  );
+                  break;
+              }
+            },
+            currentIndex: selectedIndex,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.place),
+                label: 'Map',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.notifications),
+                label: 'Activity',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
+            ],
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: Colors.grey[50],
+            unselectedItemColor: Colors.black87.withOpacity(0.75),
+            backgroundColor: Colors.amber,
+            iconSize: 20,
+            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+            unselectedFontSize: 15,
+            selectedFontSize: 15,
+          ),
+        ),
       ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.place),
-        label: 'Map',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.notifications),
-        label: 'Activity',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.person),
-        label: 'Profile',
-      ),
-    ],
-    type: BottomNavigationBarType.fixed,
-    selectedItemColor: Colors.grey[50],
-    unselectedItemColor: Colors.black87.withOpacity(0.75),
-    backgroundColor: Colors.amber,
-    iconSize: 20,
-    selectedLabelStyle: const TextStyle(
-      fontWeight: FontWeight.bold
-    ),
-    unselectedFontSize: 15,
-    selectedFontSize: 15,
-  ),
-),
-
-    ),
-      );
-  
+    );
   }
 }
 
 class LocationUtils {
-  static Future<LatLng?> getCoordinates(TextEditingController controller) async {
+  static Future<LatLng?> getCoordinates(
+      TextEditingController controller) async {
     final address = controller.text;
     final apiKey = GOOGLE_MAPS_API_KEY;
-    final url = 'https://maps.googleapis.com/maps/api/geocode/json?address=$address&key=$apiKey';
+    final url =
+        'https://maps.googleapis.com/maps/api/geocode/json?address=$address&key=$apiKey';
 
     final response = await http.get(Uri.parse(url));
 
@@ -163,7 +166,8 @@ class LocationUtils {
 
   static Future<LatLng?> getCoordinatesFromGoogleMaps(String address) async {
     final apiKey = GOOGLE_MAPS_API_KEY;
-    final url = 'https://maps.googleapis.com/maps/api/geocode/json?address=$address&key=$apiKey';
+    final url =
+        'https://maps.googleapis.com/maps/api/geocode/json?address=$address&key=$apiKey';
 
     final response = await http.get(Uri.parse(url));
 
@@ -182,10 +186,12 @@ class LocationUtils {
 class SearchLocationScreen extends StatefulWidget {
   final OnCoordinatesFetched onCoordinatesFetched;
 
-  const SearchLocationScreen({Key? key, required this.onCoordinatesFetched}) : super(key: key);
+  const SearchLocationScreen({Key? key, required this.onCoordinatesFetched})
+      : super(key: key);
 
   @override
-  State<SearchLocationScreen> createState() => _SearchLocationScreenState(onCoordinatesFetched: onCoordinatesFetched);
+  State<SearchLocationScreen> createState() =>
+      _SearchLocationScreenState(onCoordinatesFetched: onCoordinatesFetched);
 }
 
 class _SearchLocationScreenState extends State<SearchLocationScreen> {
@@ -258,23 +264,24 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
                 child: ElevatedButton(
                   onPressed: () async {
                     totalDistance = 0;
-                    startingCoordinates = await LocationUtils.getCoordinatesFromGoogleMaps(startingLocationController.text);
-                    destinationCoordinates = await LocationUtils.getCoordinatesFromGoogleMaps(destinationLocationController.text);
+                    startingCoordinates =
+                        await LocationUtils.getCoordinatesFromGoogleMaps(
+                            startingLocationController.text);
+                    destinationCoordinates =
+                        await LocationUtils.getCoordinatesFromGoogleMaps(
+                            destinationLocationController.text);
                     print('start $startingCoordinates');
                     print('destination $destinationCoordinates');
-                    if (startingCoordinates != null && destinationCoordinates != null) {
+                    if (startingCoordinates != null &&
+                        destinationCoordinates != null) {
                       onCoordinatesFetched(
-                        LatLng(
-                            startingCoordinates?.latitude ?? 0.0, 
-                            startingCoordinates?.longitude ?? 0.0
-                              ),
-                        LatLng(
-                            destinationCoordinates?.latitude ?? 0.0, 
-                            destinationCoordinates?.longitude ?? 0.0
-                        ),
+                        LatLng(startingCoordinates?.latitude ?? 0.0,
+                            startingCoordinates?.longitude ?? 0.0),
+                        LatLng(destinationCoordinates?.latitude ?? 0.0,
+                            destinationCoordinates?.longitude ?? 0.0),
                       );
                     }
-                  },  
+                  },
                   child: const Text('Get Coordinates'),
                 ),
               ),
@@ -286,11 +293,12 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
                 height: 200.0,
                 child: ListView.builder(
                   itemCount: placePredictions.length,
-                  itemBuilder: (context, index){
+                  itemBuilder: (context, index) {
                     return ListTile(
                       title: Text(placePredictions[index].description!),
                       onTap: () {
-                        selectLocation(placePredictions[index].description!, true);
+                        selectLocation(
+                            placePredictions[index].description!, true);
                       },
                     );
                   },
@@ -306,9 +314,12 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
                   itemCount: destinationPlacePredictions.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Text(destinationPlacePredictions[index].description!),
+                      title:
+                          Text(destinationPlacePredictions[index].description!),
                       onTap: () {
-                        selectLocation(destinationPlacePredictions[index].description!, false);
+                        selectLocation(
+                            destinationPlacePredictions[index].description!,
+                            false);
                       },
                     );
                   },
@@ -365,7 +376,8 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
     }
   }
 
-  void selectLocation(String location, bool isStartingLocation) {setState(() {
+  void selectLocation(String location, bool isStartingLocation) {
+    setState(() {
       if (isStartingLocation) {
         startingLocationController.text = location;
         print(location);
@@ -383,10 +395,13 @@ class MapPage extends StatefulWidget {
   final LatLng startLocation;
   final LatLng endLocation;
 
-  const MapPage({Key? key, required this.startLocation, required this.endLocation}) : super(key: key);
+  const MapPage(
+      {Key? key, required this.startLocation, required this.endLocation})
+      : super(key: key);
 
   @override
-  State<MapPage> createState() => _MapPageState(startLocation: startLocation, endLocation: endLocation);
+  State<MapPage> createState() =>
+      _MapPageState(startLocation: startLocation, endLocation: endLocation);
 }
 
 class _MapPageState extends State<MapPage> {
@@ -396,7 +411,7 @@ class _MapPageState extends State<MapPage> {
   _MapPageState({required this.startLocation, required this.endLocation});
 
   Location _locationController = new Location();
-  final Completer<GoogleMapController> _mapController = 
+  final Completer<GoogleMapController> _mapController =
       Completer<GoogleMapController>();
   LatLng _currentP = LatLng(10.738175, 122.541184);
   Map<PolylineId, Polyline> polylines = {};
@@ -404,16 +419,17 @@ class _MapPageState extends State<MapPage> {
 
   final MarkerId _currentLocationMarkerId = MarkerId("_currentLocation");
   final MarkerId _sourceLocationMarkerId = MarkerId("_sourceLocation");
-  final MarkerId _destinationLocationMarkerId = MarkerId("_destinationLocation");
+  final MarkerId _destinationLocationMarkerId =
+      MarkerId("_destinationLocation");
 
   @override
   void initState() {
     super.initState();
     getLocationUpdates().then((_) => {
-getPolylinePoints().then((coordinates) => {
-        generatePolyLineFromPoints(coordinates),
-      }),
-    });
+          getPolylinePoints().then((coordinates) => {
+                generatePolyLineFromPoints(coordinates),
+              }),
+        });
   }
 
   @override
@@ -427,7 +443,8 @@ getPolylinePoints().then((coordinates) => {
               CameraPosition(target: startLocation, zoom: 12),
             ));
           },
-          initialCameraPosition: CameraPosition(target: startLocation, zoom: 12),
+          initialCameraPosition:
+              CameraPosition(target: startLocation, zoom: 12),
           markers: Set<Marker>.of(markers.values),
           polylines: Set<Polyline>.of(polylines.values),
         ),
@@ -443,7 +460,7 @@ getPolylinePoints().then((coordinates) => {
       ],
     );
   }
-  
+
   Future<void> getLocationUpdates() async {
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
@@ -459,15 +476,17 @@ getPolylinePoints().then((coordinates) => {
     _permissionGranted = await _locationController.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await _locationController.requestPermission();
-      if (_permissionGranted!= PermissionStatus.granted) {
+      if (_permissionGranted != PermissionStatus.granted) {
         return;
       }
     }
 
-    _locationController.onLocationChanged.listen((LocationData currentLocation) {
-      if (currentLocation!= null) {
+    _locationController.onLocationChanged
+        .listen((LocationData currentLocation) {
+      if (currentLocation != null) {
         setState(() {
-          _currentP = LatLng(currentLocation.latitude!, currentLocation.longitude!);
+          _currentP =
+              LatLng(currentLocation.latitude!, currentLocation.longitude!);
           print(_currentP);
 
           // Update the marker position
@@ -509,20 +528,19 @@ getPolylinePoints().then((coordinates) => {
     );
     if (result.points.isNotEmpty) {
       totalDistance = 0;
-      result.points.forEach((PointLatLng point) { 
+      result.points.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
     } else {
       print(result.errorMessage);
     }
- 
-    if (totalDistance == 0) {
-      for( var i = 0; i < polylineCoordinates.length - 1; i++ ){
-      totalDistance += calculateDistance(
-          polylineCoordinates[i], polylineCoordinates[i+1]);
-    }
-    }
 
+    if (totalDistance == 0) {
+      for (var i = 0; i < polylineCoordinates.length - 1; i++) {
+        totalDistance += calculateDistance(
+            polylineCoordinates[i], polylineCoordinates[i + 1]);
+      }
+    }
 
     print('DISTANCE: $totalDistance km');
     return polylineCoordinates;
@@ -531,34 +549,35 @@ getPolylinePoints().then((coordinates) => {
   void generatePolyLineFromPoints(List<LatLng> polylineCoordinates) async {
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
-      polylineId: id,
-      color: Colors.blue,
-      points: polylineCoordinates,
-      width: 7);
+        polylineId: id,
+        color: Colors.blue,
+        points: polylineCoordinates,
+        width: 7);
     setState(() {
       polylines[id] = polyline;
     });
   }
 
-  double calculateDistance(LatLng point1, LatLng point2) {var lat1 = point1.latitude;
+  double calculateDistance(LatLng point1, LatLng point2) {
+    var lat1 = point1.latitude;
     var lon1 = point1.longitude;
     var lat2 = point2.latitude;
     var lon2 = point2.longitude;
 
     var R = 6371; // Radius of the earth in km
-    var dLat = _deg2rad(lat2 - lat1);  // deg2rad below
-    var dLon = _deg2rad(lon2 - lon1); 
-    var a = 
-        sin(dLat/2) * sin(dLat/2) +
-            cos(_deg2rad(lat1)) * cos(_deg2rad(lat2)) * 
-            sin(dLon/2) * sin(dLon/2)
-        ; 
-    var c = 2 * atan2(sqrt(a), sqrt(1-a)); 
+    var dLat = _deg2rad(lat2 - lat1); // deg2rad below
+    var dLon = _deg2rad(lon2 - lon1);
+    var a = sin(dLat / 2) * sin(dLat / 2) +
+        cos(_deg2rad(lat1)) *
+            cos(_deg2rad(lat2)) *
+            sin(dLon / 2) *
+            sin(dLon / 2);
+    var c = 2 * atan2(sqrt(a), sqrt(1 - a));
     var d = R * c; // Distance in km
     return d;
   }
 
   double _deg2rad(deg) {
-    return deg * (pi/180);
+    return deg * (pi / 180);
   }
 }

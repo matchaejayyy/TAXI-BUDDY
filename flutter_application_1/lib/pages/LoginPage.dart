@@ -6,11 +6,9 @@ import 'package:flutter_application_1/Components/square_tile.dart';
 import 'package:flutter_application_1/pages/forgot_password.dart';
 import 'package:flutter_application_1/services/auth_service.dart';
 
-
 class LoginPage extends StatefulWidget {
   final Function()? onTap; // Callback for sign up
   const LoginPage({super.key, required this.onTap});
-
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -20,7 +18,6 @@ class _LoginPageState extends State<LoginPage> {
   // Controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  
 
   // Sign in method
   void signUserIn() async {
@@ -40,15 +37,14 @@ class _LoginPageState extends State<LoginPage> {
       );
       //remove loading thingi
       // ignore: use_build_context_synchronously
-      Navigator.pop(context); 
-      
+      Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
-      Navigator.pop(context); 
+      Navigator.pop(context);
       String message;
       // worng email
       if (e.code == 'user-not-found') {
         message = 'Invalid username or password.';
-      // wong password
+        // wong password
       } else if (e.code == 'wrong-password') {
         message = 'Invalid username or password.'; // Avoid logging password
       } else {
@@ -69,58 +65,48 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.yellow,
       body: SafeArea(
         child: Center(
-          child:SingleChildScrollView(
+          child: SingleChildScrollView(
             child: Column(
               children: [
                 const SizedBox(height: 50),
-
                 Image.asset(
                   'lib/logos/buddy.png',
                   width: 300,
                   height: 230,
                 ),
-                
-
                 const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 25.0),
-                child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                  'SIGN IN',
-                    style: TextStyle(
-                      color: Colors.black, 
-                      fontWeight: FontWeight.bold, fontSize: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'SIGN IN',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
+                    ],
                   ),
-                ],
                 ),
-              ),
-              
-              
-        
-                const SizedBox(height:15),
-              
+                const SizedBox(height: 15),
                 MyTextfield(
                   controller: emailController,
                   hintText: 'Email',
                   obscureText: false,
                 ),
-
-                const SizedBox(height:15),
+                const SizedBox(height: 15),
                 MyTextfield(
                   controller: passwordController,
                   hintText: 'Password',
                   obscureText: true,
                 ),
-
-                const SizedBox(height:15),
+                const SizedBox(height: 15),
                 MyButton(
                   text: "Sign In",
-                  onTap: signUserIn, 
-
+                  onTap: signUserIn,
                 ),
-                const SizedBox(height:15),
-                
+                const SizedBox(height: 15),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: Row(
@@ -132,7 +118,8 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const ForgotPasswordScreen(),
+                              builder: (context) =>
+                                  const ForgotPasswordScreen(),
                             ),
                           );
                         },
@@ -144,23 +131,21 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
-                      
-                      const SizedBox(height:1),
+                      const SizedBox(height: 1),
                       GestureDetector(
                         onTap: widget.onTap,
                         child: const Text(
                           'Sign Up',
-                          style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              color: Colors.green, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
                   ),
                 ),
-
                 const SizedBox(height: 30),
-
                 const Padding(
-                  padding: EdgeInsets.symmetric(horizontal:25),
+                  padding: EdgeInsets.symmetric(horizontal: 25),
                   child: Row(
                     children: [
                       Expanded(
@@ -170,50 +155,32 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Text('Or Continue With',
-                        style: TextStyle (fontWeight: FontWeight.bold))
-                        
-                      ),
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: Text('Or Continue With',
+                              style: TextStyle(fontWeight: FontWeight.bold))),
                       Expanded(
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.black,)
-                      ),
-                            
+                          child: Divider(
+                        thickness: 0.5,
+                        color: Colors.black,
+                      )),
                     ],
                   ),
                 ),
-
-
                 const SizedBox(height: 20),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     //google Logo
                     SquareTile(
-                      onTap: () => AuthService().signInWithGoogle(),
-                      imagePath: 'lib/logos/Googlelogo.png'),
-
-                    const SizedBox(width: 15),
-
-                    //Apple logo
-                    SquareTile(
-                      onTap: () {},
-                      imagePath: 'lib/logos/Applelogo.png')
+                        onTap: () => AuthService().signInWithGoogle(),
+                        imagePath: 'lib/logos/Googlelogo.png'),
                   ],
                 )
-
-             
-            ],
+              ],
+            ),
           ),
         ),
       ),
-    ),
-  );
-    
+    );
   }
 }
-
-

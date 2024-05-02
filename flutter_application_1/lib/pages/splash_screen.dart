@@ -9,32 +9,28 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> 
+class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-      
-      @override
-    void initState() {
-      super.initState();
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
-      Future.delayed(Duration(seconds: 5), () {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
+    Future.delayed(Duration(seconds: 5), () {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
           builder: (_) => const AuthPage(),
-           ),
-          );
-      });
-    }
-
-    @override
-
-    void dispose() {
-      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-      overlays: SystemUiOverlay.values);
-      super.dispose();
+        ),
+      );
+    });
   }
 
-
-
+  @override
+  void dispose() {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: SystemUiOverlay.values);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +44,9 @@ class _SplashScreenState extends State<SplashScreen>
         child: const Center(
           child: Padding(
             padding: EdgeInsets.all(50.0),
-             // Adjust padding as needed
-            child: Image(image: AssetImage('lib/logos/splash.gif')), // Use Image widget
+            // Adjust padding as needed
+            child: Image(
+                image: AssetImage('lib/logos/splash.gif')), // Use Image widget
           ),
         ),
       ),

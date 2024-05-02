@@ -20,8 +20,8 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Column(
         children: [
           Container(
-            alignment: Alignment.bottomLeft,
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 25),
             width: double.infinity,
             height: 100,
             decoration: const BoxDecoration(color: Colors.amber),
@@ -83,7 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 30),
                 Container(
-                  margin: const EdgeInsets.only(right: 25),
+                  margin: const EdgeInsets.only(left: 0.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -135,100 +135,101 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
       bottomNavigationBar: SizedBox(
-  height: 60,
-  child: BottomNavigationBar(
-    onTap: (index) {
-      setState(() {
-        selectedIndex = index;
-      });
+        height: 60,
+        child: BottomNavigationBar(
+          onTap: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
 
-      // Navigate to the corresponding page based on the selected index
-      switch (index) {
-        case 0:
-          // Navigate to the Home page
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
-          );
-          break;
-        case 1:
-          // Navigate to the Map page
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const TaxiBuddyHomePage()),
-          );
-          break;
-        case 2:
-          // Navigate to the Activity page
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ActivityPage()),
-          );
-          break;
-        case 3:
-          // Navigate to the Profile page
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ProfilePage()),
-          );
-          break;
-      }
-    },
-    currentIndex: selectedIndex,
-    items: const [
-      BottomNavigationBarItem(
-        icon: Icon(Icons.home),
-        label: 'Home',
+            // Navigate to the corresponding page based on the selected index
+            switch (index) {
+              case 0:
+                // Navigate to the Home page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomePage()),
+                );
+                break;
+              case 1:
+                // Navigate to the Map page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const TaxiBuddyHomePage()),
+                );
+                break;
+              case 2:
+                // Navigate to the Activity page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ActivityPage()),
+                );
+                break;
+              case 3:
+                // Navigate to the Profile page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfilePage()),
+                );
+                break;
+            }
+          },
+          currentIndex: selectedIndex,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.place),
+              label: 'Map',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.notifications),
+              label: 'Activity',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+          ],
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.grey[50],
+          unselectedItemColor: Colors.black87.withOpacity(0.75),
+          backgroundColor: Colors.amber,
+          iconSize: 20,
+          selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+          unselectedFontSize: 15,
+          selectedFontSize: 15,
+        ),
       ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.place),
-        label: 'Map',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.notifications),
-        label: 'Activity',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.person),
-        label: 'Profile',
-      ),
-    ],
-    type: BottomNavigationBarType.fixed,
-    selectedItemColor: Colors.grey[50],
-    unselectedItemColor: Colors.black87.withOpacity(0.75),
-    backgroundColor: Colors.amber,
-    iconSize: 20,
-    selectedLabelStyle: const TextStyle(
-      fontWeight: FontWeight.bold
-    ),
-    unselectedFontSize: 15,
-    selectedFontSize: 15,
-  ),
-),
-
     );
   }
 
   Widget profileInfo(String label, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
+    return Container(
+      alignment: Alignment.centerLeft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
           ),
-        ),
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 18,
-            color: Colors.black87,
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 18,
+              color: Colors.black87,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -258,7 +259,9 @@ class _ClickableCircleState extends State<ClickableCircle> {
             width: 2,
           ),
           shape: BoxShape.circle,
-          color: _isClicked ? const Color.fromARGB(255, 13, 177, 27) : Colors.grey[50],
+          color: _isClicked
+              ? const Color.fromARGB(255, 13, 177, 27)
+              : Colors.grey[50],
         ),
       ),
     );
