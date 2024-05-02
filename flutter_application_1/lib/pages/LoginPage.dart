@@ -39,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
         password: passwordController.text,
       );
       //remove loading thingi
+      // ignore: use_build_context_synchronously
       Navigator.pop(context); 
       
     } on FirebaseAuthException catch (e) {
@@ -203,10 +204,7 @@ class _LoginPageState extends State<LoginPage> {
                       imagePath: 'lib/logos/Applelogo.png')
                   ],
                 )
-                
-              
 
-            
              
             ],
           ),

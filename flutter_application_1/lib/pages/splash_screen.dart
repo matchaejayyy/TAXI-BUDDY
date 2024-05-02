@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_application_1/pages/auth_page.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen>
       super.initState();
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
-      Future.delayed(const Duration(seconds: 6), () {
+      Future.delayed(Duration(seconds: 5), () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (_) => const AuthPage(),
            ),
@@ -36,22 +36,12 @@ class _SplashScreenState extends State<SplashScreen>
 
 
 
-
-
-
-
-
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
             colors: [Colors.yellow, Colors.yellow],
           ),
         ),
