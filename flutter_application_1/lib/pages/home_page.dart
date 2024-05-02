@@ -31,7 +31,7 @@ int selectedIndex = 0;
               mainAxisSize: MainAxisSize.min,
               children: [
                 const Text(
-                    "Welcome, Jane De La Cruz!",
+                    "Welcome!",
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,

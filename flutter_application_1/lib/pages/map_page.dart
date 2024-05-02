@@ -10,6 +10,9 @@ import 'package:flutter_application_1/pages/network_utilty.dart';
 import 'package:flutter_application_1/pages/place_auto_complate_response.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_application_1/pages/stopwatchoverlay.dart';
+
+   double totalDistance = 0.0;
 
 typedef void OnCoordinatesFetched(LatLng startLocation, LatLng endLocation);
 
@@ -25,7 +28,6 @@ class _TaxiBuddyHomePageState extends State<TaxiBuddyHomePage> {
     Tab(text: 'Search'),
     Tab(text: 'Map'),
   ];
-
   late List<Widget> _tabViews;
 
   @override
@@ -177,6 +179,7 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
                 padding: const EdgeInsets.all(16.0),
                 child: ElevatedButton(
                   onPressed: () async {
+                    totalDistance = 0;
                     startingCoordinates = await LocationUtils.getCoordinatesFromGoogleMaps(startingLocationController.text);
                     destinationCoordinates = await LocationUtils.getCoordinatesFromGoogleMaps(destinationLocationController.text);
                     print('start $startingCoordinates');
@@ -337,19 +340,32 @@ getPolylinePoints().then((coordinates) => {
 
   @override
   Widget build(BuildContext context) {
-    return GoogleMap(
-      onMapCreated: (GoogleMapController controller) {
-        _mapController.complete(controller);
-        controller.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(target: startLocation, zoom: 12),
-        ));
-      },
-      initialCameraPosition: CameraPosition(target: startLocation, zoom: 12),
-      markers: Set<Marker>.of(markers.values),
-      polylines: Set<Polyline>.of(polylines.values),
+    return Stack(
+      children: [
+        GoogleMap(
+          onMapCreated: (GoogleMapController controller) {
+            _mapController.complete(controller);
+            controller.animateCamera(CameraUpdate.newCameraPosition(
+              CameraPosition(target: startLocation, zoom: 12),
+            ));
+          },
+          initialCameraPosition: CameraPosition(target: startLocation, zoom: 12),
+          markers: Set<Marker>.of(markers.values),
+          polylines: Set<Polyline>.of(polylines.values),
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 60,
+          child: Opacity(
+            opacity: 0.8, // Set the opacity value as needed
+            child: StopwatchOverlay(),
+          ),
+        ),
+      ],
     );
   }
-
+  
   Future<void> getLocationUpdates() async {
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
@@ -414,18 +430,22 @@ getPolylinePoints().then((coordinates) => {
       travelMode: TravelMode.driving,
     );
     if (result.points.isNotEmpty) {
+      totalDistance = 0;
       result.points.forEach((PointLatLng point) { 
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
     } else {
       print(result.errorMessage);
     }
-    double totalDistance = 0.0;
-
-    for( var i = 0; i < polylineCoordinates.length - 1; i++ ){
+ 
+    if (totalDistance == 0) {
+      for( var i = 0; i < polylineCoordinates.length - 1; i++ ){
       totalDistance += calculateDistance(
           polylineCoordinates[i], polylineCoordinates[i+1]);
     }
+    }
+
+
     print('DISTANCE: $totalDistance km');
     return polylineCoordinates;
   }
