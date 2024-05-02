@@ -78,6 +78,8 @@ flutter:
     - assets/images/help-home.png
     - assets/images/taxi-home.png
     - assets/images/map-home.png
+    - assets/images/edit_pic.png
+    - assets/images/profile_pic.png
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

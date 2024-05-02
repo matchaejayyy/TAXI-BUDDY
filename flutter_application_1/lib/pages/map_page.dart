@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'package:flutter_application_1/pages/activity_page.dart';
+import 'package:flutter_application_1/pages/home_page.dart';
+import 'package:flutter_application_1/pages/profile_page.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:location/location.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +55,7 @@ class _TaxiBuddyHomePageState extends State<TaxiBuddyHomePage> {
       length: _tabs.length,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.yellow,
+          backgroundColor: Colors.amber,
           bottom: TabBar(
             tabs: _tabs,
           ),
@@ -60,8 +63,82 @@ class _TaxiBuddyHomePageState extends State<TaxiBuddyHomePage> {
         body: TabBarView(
           children: _tabViews,
         ),
+        
+        bottomNavigationBar: SizedBox(
+  height: 60,
+  child: BottomNavigationBar(
+    onTap: (index) {
+      setState(() {
+        selectedIndex = index;
+      });
+
+      // Navigate to the corresponding page based on the selected index
+      switch (index) {
+        case 0:
+          // Navigate to the Home page
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage()),
+          );
+          break;
+        case 1:
+          // Navigate to the Map page
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const TaxiBuddyHomePage()),
+          );
+          break;
+        case 2:
+          // Navigate to the Activity page
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ActivityPage()),
+          );
+          break;
+        case 3:
+          // Navigate to the Profile page
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ProfilePage()),
+          );
+          break;
+      }
+    },
+    currentIndex: selectedIndex,
+    items: const [
+      BottomNavigationBarItem(
+        icon: Icon(Icons.home),
+        label: 'Home',
       ),
-    );
+      BottomNavigationBarItem(
+        icon: Icon(Icons.place),
+        label: 'Map',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.notifications),
+        label: 'Activity',
+      ),
+      BottomNavigationBarItem(
+        icon: Icon(Icons.person),
+        label: 'Profile',
+      ),
+    ],
+    type: BottomNavigationBarType.fixed,
+    selectedItemColor: Colors.grey[50],
+    unselectedItemColor: Colors.black87.withOpacity(0.75),
+    backgroundColor: Colors.amber,
+    iconSize: 20,
+    selectedLabelStyle: const TextStyle(
+      fontWeight: FontWeight.bold
+    ),
+    unselectedFontSize: 15,
+    selectedFontSize: 15,
+  ),
+),
+
+    ),
+      );
+  
   }
 }
 

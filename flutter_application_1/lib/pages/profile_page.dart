@@ -4,14 +4,14 @@ import 'package:flutter_application_1/pages/home_page.dart';
 import 'package:flutter_application_1/pages/map_page.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-int selectedIndex = 3;
+  int selectedIndex = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -19,10 +19,10 @@ int selectedIndex = 3;
       backgroundColor: Colors.grey.shade50,
       body: Column(
         children: [
-          Container( //main children 1 on the upper yellow
+          Container(
             alignment: Alignment.bottomLeft,
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25), //so the text wont be at the very edge of the yellow
-            width: double.infinity, // Set width to fill the entire screen
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+            width: double.infinity,
             height: 100,
             decoration: const BoxDecoration(color: Colors.amber),
             child: const Column(
@@ -30,28 +30,108 @@ int selectedIndex = 3;
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                    "PROFILE",
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
+                  "PROFILE",
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
                   ),
-
-                SizedBox(height: 10,),
-                Row(
-                  children: [
-                   
-                
-
-    
-                  ],
                 ),
               ],
             ),
           ),
-
-        
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(25),
+              children: [
+                Column(
+                  children: [
+                    Stack(
+                      alignment: AlignmentDirectional.bottomEnd,
+                      children: [
+                        SizedBox(
+                          height: 150,
+                          width: 150,
+                          child: Image.asset('assets/images/profile_pic.png'),
+                        ),
+                        Positioned(
+                          bottom: 10,
+                          right: 10,
+                          child: SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: Image.asset('assets/images/edit_pic.png'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Jane Dela Cruz',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 30),
+                Container(
+                  margin: const EdgeInsets.only(right: 25),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      profileInfo("Username: ", "Jane Dela Cruz"),
+                      const SizedBox(height: 30),
+                      profileInfo("Email: ", "janedelacruz@gmail.com"),
+                      const SizedBox(height: 30),
+                      profileInfo("Contact Number: ", "09090909090"),
+                      const SizedBox(height: 30),
+                      profileInfo("Address: ", "Iloilo City"),
+                      const SizedBox(height: 15),
+                      const Divider(height: 15, indent: 20, endIndent: 20),
+                      const SizedBox(height: 15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Notifications',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          ClickableCircle(),
+                        ],
+                      ),
+                      const SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Receive messages',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          ClickableCircle(),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: SizedBox(
@@ -129,89 +209,58 @@ int selectedIndex = 3;
     );
   }
 
-  Row buildFileRowSub(String price) {
-    return Row(
-                          children: [
-                            RichText(
-                            text: TextSpan(
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.normal,
-                                color: Color.fromARGB(197, 0, 0, 0),
-                              ),
-                              children: [
-                                const TextSpan(
-                                  text: "More Info ",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.normal,
-                                    color: Color.fromARGB(255, 0, 141, 59),
-                                ),
-                                ),
-                                const TextSpan(
-                                  text: "Estimated price ",
-                                ),
-                                TextSpan(
-                                  text: price,
-                                ),
-                              ],
-                            ),
-                          ),
-                          ],
-                        );
-  }
-
-  Row buildFileRow(String place, String time) {
-    return Row(
-                          children: [
-                            RichText(
-                              text: TextSpan(
-                                style: const TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: place,
-                                  ),
-                                  TextSpan(
-                                    text: time,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.normal
-                                  ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        );
-  }
-
-  Column buildFileColumn(String image) {
+  Widget profileInfo(String label, String value) {
     return Column(
-                    children: [
-                      Container(
-                        height:90,
-                        width: 90,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: const Color.fromARGB(255, 235, 133, 0), // Outer border color
-                            width: 4, // Outer border width
-                          ),
-                          borderRadius: BorderRadius.circular(55), // Border radius
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.amber, // Inner border color
-                              spreadRadius: -1, // Negative value to create an inner border
-                            ),
-                          ],
-                        ),
-                        padding: const EdgeInsets.all(14),
-                        child: Image.asset('assets/images/$image.png'),
-                      )
-                    ],
-                  );
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+          ),
+        ),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 18,
+            color: Colors.black87,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ClickableCircle extends StatefulWidget {
+  @override
+  _ClickableCircleState createState() => _ClickableCircleState();
+}
+
+class _ClickableCircleState extends State<ClickableCircle> {
+  bool _isClicked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _isClicked = !_isClicked;
+        });
+      },
+      child: Container(
+        width: 30,
+        height: 30,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.black87,
+            width: 2,
+          ),
+          shape: BoxShape.circle,
+          color: _isClicked ? const Color.fromARGB(255, 13, 177, 27) : Colors.grey[50],
+        ),
+      ),
+    );
   }
 }
