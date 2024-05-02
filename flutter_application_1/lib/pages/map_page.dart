@@ -24,6 +24,7 @@ class TaxiBuddyHomePage extends StatefulWidget {
 }
 
 class _TaxiBuddyHomePageState extends State<TaxiBuddyHomePage> {
+  int selectedIndex = 1;
   final List<Tab> _tabs = <Tab>[
     Tab(text: 'Search'),
     Tab(text: 'Map'),

@@ -54,7 +54,7 @@ class _StopwatchOverlayState extends State<StopwatchOverlay> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height / 3.7, // height
+      height: MediaQuery.of(context).size.height / 3.5, 
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
@@ -66,6 +66,13 @@ class _StopwatchOverlayState extends State<StopwatchOverlay> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text(
+              "Fare Price: PHP ${(40 + ((_totalElapsedTime / 60000)*3) + totalDistance*8).toStringAsFixed(2)}",
+              style: const TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             StreamBuilder<int>(
               stream: _stopWatchTimer.rawTime,
               initialData: _stopWatchTimer.rawTime.value,
@@ -76,7 +83,7 @@ class _StopwatchOverlayState extends State<StopwatchOverlay> {
                 return Text(
                   displayTime,
                   style: const TextStyle(
-                    fontSize: 40.0,
+                    fontSize: 25.0,
                     fontWeight: FontWeight.bold,
                   ),
                 );
@@ -86,7 +93,7 @@ class _StopwatchOverlayState extends State<StopwatchOverlay> {
             Text(
               "Total Time: ${(_totalElapsedTime / 60000).toStringAsFixed(2)} min",
               style: const TextStyle(
-                fontSize: 20.0,
+                fontSize: 15.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -94,15 +101,7 @@ class _StopwatchOverlayState extends State<StopwatchOverlay> {
             Text(
               "Total Distance Traveled: ${totalDistance.toStringAsFixed(2)}",
               style: const TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-
-            Text(
-              "Fare Price: PHP ${(40 + ((_totalElapsedTime / 60000)*3) + totalDistance*8).toStringAsFixed(2)}",
-              style: const TextStyle(
-                fontSize: 20.0,
+                fontSize: 15.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -120,7 +119,7 @@ class _StopwatchOverlayState extends State<StopwatchOverlay> {
                   },
                 ),
                 const SizedBox(
-                  width: 10.0,
+                  width: 10,
                 ),
                 CustomButton(
                   label: 'Stop',
@@ -130,9 +129,10 @@ class _StopwatchOverlayState extends State<StopwatchOverlay> {
                     setState(() {});
                   },
                 ),
-              ],
-            ),
-            CustomButton(
+                const SizedBox(
+                  width: 10,
+                ),
+                CustomButton(
               label: 'Reset',
               onPress: () {
                 _stopWatchTimer.onResetTimer();
@@ -141,6 +141,9 @@ class _StopwatchOverlayState extends State<StopwatchOverlay> {
                 setState(() {});
               },
             ),
+              ],
+            ),
+          
           ],
         ),
       ),
