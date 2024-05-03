@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/activity_page.dart';
 import 'package:flutter_application_1/pages/map_page.dart';
 import 'package:flutter_application_1/pages/profile_page.dart';
+import 'package:flutter_application_1/pages/fillup_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -94,7 +95,15 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   buildFileColumn('taxi-home'),
                   buildFileColumn('map-home'),
-                  buildFileColumn('help-home'),
+                  GestureDetector(
+                    onTap: () {
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Fillup()),
+    );
+  },
+                    child: buildFileColumn('help-home'),
+                  )
                 ],
               ),
               const SizedBox(
