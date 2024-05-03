@@ -16,6 +16,7 @@ import 'dart:convert';
 import 'package:flutter_application_1/pages/stopwatchoverlay.dart';
 
 double totalDistance = 0.0;
+bool _dialogShown = false;
 
 typedef void OnCoordinatesFetched(LatLng startLocation, LatLng endLocation);
 
@@ -483,7 +484,7 @@ class _MapPageState extends State<MapPage> {
 
     _locationController.onLocationChanged
         .listen((LocationData currentLocation) {
-      if (currentLocation != null) {
+      if (currentLocation!= null) {
         setState(() {
           _currentP =
               LatLng(currentLocation.latitude!, currentLocation.longitude!);
@@ -495,6 +496,9 @@ class _MapPageState extends State<MapPage> {
             icon: BitmapDescriptor.defaultMarker,
             position: _currentP,
           );
+
+          // Check for deviation
+          checkDeviation();
         });
       }
     });
@@ -509,7 +513,7 @@ class _MapPageState extends State<MapPage> {
         icon: BitmapDescriptor.defaultMarker,
         position: startLocation,
       );
-      markers[_destinationLocationMarkerId] = Marker(
+     markers[_destinationLocationMarkerId] = Marker(
         markerId: _destinationLocationMarkerId,
         icon: BitmapDescriptor.defaultMarker,
         position: endLocation,
@@ -579,5 +583,30 @@ class _MapPageState extends State<MapPage> {
 
   double _deg2rad(deg) {
     return deg * (pi / 180);
+  }
+
+  void checkDeviation() {
+    const double deviationThreshold = 1; 
+    double distance = calculateDistance(_currentP, startLocation);
+    if (distance > deviationThreshold && !_dialogShown ) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("WARNING"),
+            content: Text("You have DEVIATED from the route by $distance km, kindly tell your driver or REPORT!"),
+            actions: <Widget>[
+              TextButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  _dialogShown = true;
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 }
