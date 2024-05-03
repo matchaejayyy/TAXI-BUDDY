@@ -264,6 +264,7 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
                 padding: const EdgeInsets.all(16.0),
                 child: ElevatedButton(
                   onPressed: () async {
+                    _dialogShown = false;
                     totalDistance = 0;
                     startingCoordinates =
                         await LocationUtils.getCoordinatesFromGoogleMaps(
@@ -594,7 +595,7 @@ class _MapPageState extends State<MapPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text("WARNING"),
-            content: Text("You have DEVIATED from the route by $distance km, kindly tell your driver or REPORT!"),
+            content: Text("You have DEVIATED from the route by ${distance.toStringAsFixed(2)} km, kindly tell your driver or REPORT!"),
             actions: <Widget>[
               TextButton(
                 child: Text("OK"),
