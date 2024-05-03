@@ -78,7 +78,7 @@ class _FillupState extends State<Fillup> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'ONLINE FORM',
+                        'REPORT FORM',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
