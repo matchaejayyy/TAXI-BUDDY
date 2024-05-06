@@ -100,8 +100,8 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const Fillup()),
-    );
-  },
+                     );
+                    },
                     child: buildFileColumn('help-home'),
                   )
                 ],
@@ -302,7 +302,7 @@ class _HomePageState extends State<HomePage> {
                 // Navigate to the Map page
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => TaxiBuddyHomePage()),
+                  MaterialPageRoute(builder: (context) => const TaxiBuddyHomePage()),
                 );
                 break;
               case 2:

@@ -18,10 +18,10 @@ import 'package:flutter_application_1/pages/stopwatchoverlay.dart';
 double totalDistance = 0.0;
 bool _dialogShown = false;
 
-typedef void OnCoordinatesFetched(LatLng startLocation, LatLng endLocation);
+typedef OnCoordinatesFetched = void Function(LatLng startLocation, LatLng endLocation);
 
 class TaxiBuddyHomePage extends StatefulWidget {
-  const TaxiBuddyHomePage({Key? key}) : super(key: key);
+  const TaxiBuddyHomePage({super.key});
 
   @override
   _TaxiBuddyHomePageState createState() => _TaxiBuddyHomePageState();
@@ -30,8 +30,8 @@ class TaxiBuddyHomePage extends StatefulWidget {
 class _TaxiBuddyHomePageState extends State<TaxiBuddyHomePage> {
   int selectedIndex = 1;
   final List<Tab> _tabs = <Tab>[
-    Tab(text: 'Search'),
-    Tab(text: 'Map'),
+    const Tab(text: 'Search'),
+    const Tab(text: 'Map'),
   ];
   late List<Widget> _tabViews;
 
@@ -47,7 +47,7 @@ class _TaxiBuddyHomePageState extends State<TaxiBuddyHomePage> {
           });
         },
       ),
-      MapPage(
+      const MapPage(
           startLocation: LatLng(10.738175, 122.541184),
           endLocation: LatLng(10.713898, 122.552384)),
     ];
@@ -148,7 +148,7 @@ class LocationUtils {
   static Future<LatLng?> getCoordinates(
       TextEditingController controller) async {
     final address = controller.text;
-    final apiKey = GOOGLE_MAPS_API_KEY;
+    const apiKey = GOOGLE_MAPS_API_KEY;
     final url =
         'https://maps.googleapis.com/maps/api/geocode/json?address=$address&key=$apiKey';
 
@@ -166,7 +166,7 @@ class LocationUtils {
   }
 
   static Future<LatLng?> getCoordinatesFromGoogleMaps(String address) async {
-    final apiKey = GOOGLE_MAPS_API_KEY;
+    const apiKey = GOOGLE_MAPS_API_KEY;
     final url =
         'https://maps.googleapis.com/maps/api/geocode/json?address=$address&key=$apiKey';
 
@@ -187,8 +187,7 @@ class LocationUtils {
 class SearchLocationScreen extends StatefulWidget {
   final OnCoordinatesFetched onCoordinatesFetched;
 
-  const SearchLocationScreen({Key? key, required this.onCoordinatesFetched})
-      : super(key: key);
+  const SearchLocationScreen({super.key, required this.onCoordinatesFetched});
 
   @override
   State<SearchLocationScreen> createState() =>
@@ -291,7 +290,7 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
                 height: 1.0,
                 color: Colors.grey[300],
               ),
-              Container(
+              SizedBox(
                 height: 200.0,
                 child: ListView.builder(
                   itemCount: placePredictions.length,
@@ -310,7 +309,7 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
                 height: 1.0,
                 color: Colors.grey[300],
               ),
-              Container(
+              SizedBox(
                 height: 200.0,
                 child: ListView.builder(
                   itemCount: destinationPlacePredictions.length,
@@ -341,6 +340,7 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
       {
         "input": query,
         "key": GOOGLE_MAPS_API_KEY,
+        "components": "country:PH",
       },
     );
     String? response = await NetworkUtility.fetchUrl(uri);
@@ -363,6 +363,7 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
       {
         "input": query,
         "key": GOOGLE_MAPS_API_KEY,
+        "components": "country:PH",
       },
     );
     String? response = await NetworkUtility.fetchUrl(uri);
@@ -398,8 +399,7 @@ class MapPage extends StatefulWidget {
   final LatLng endLocation;
 
   const MapPage(
-      {Key? key, required this.startLocation, required this.endLocation})
-      : super(key: key);
+      {super.key, required this.startLocation, required this.endLocation});
 
   @override
   State<MapPage> createState() =>
@@ -412,17 +412,17 @@ class _MapPageState extends State<MapPage> {
 
   _MapPageState({required this.startLocation, required this.endLocation});
 
-  Location _locationController = new Location();
+  final Location _locationController = Location();
   final Completer<GoogleMapController> _mapController =
       Completer<GoogleMapController>();
-  LatLng _currentP = LatLng(10.738175, 122.541184);
+  LatLng _currentP = const LatLng(10.738175, 122.541184);
   Map<PolylineId, Polyline> polylines = {};
   Map<MarkerId, Marker> markers = {};
 
-  final MarkerId _currentLocationMarkerId = MarkerId("_currentLocation");
-  final MarkerId _sourceLocationMarkerId = MarkerId("_sourceLocation");
+  final MarkerId _currentLocationMarkerId = const MarkerId("_currentLocation");
+  final MarkerId _sourceLocationMarkerId = const MarkerId("_sourceLocation");
   final MarkerId _destinationLocationMarkerId =
-      MarkerId("_destinationLocation");
+      const MarkerId("_destinationLocation");
 
   @override
   void initState() {
@@ -450,7 +450,7 @@ class _MapPageState extends State<MapPage> {
           markers: Set<Marker>.of(markers.values),
           polylines: Set<Polyline>.of(polylines.values),
         ),
-        Positioned(
+        const Positioned(
           bottom: 0,
           left: 0,
           right: 60,
@@ -464,45 +464,43 @@ class _MapPageState extends State<MapPage> {
   }
 
   Future<void> getLocationUpdates() async {
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
 
-    _serviceEnabled = await _locationController.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await _locationController.requestService();
-      if (!_serviceEnabled) {
+    serviceEnabled = await _locationController.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await _locationController.requestService();
+      if (!serviceEnabled) {
         return;
       }
     }
 
-    _permissionGranted = await _locationController.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await _locationController.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
+    permissionGranted = await _locationController.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await _locationController.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
         return;
       }
     }
 
     _locationController.onLocationChanged
         .listen((LocationData currentLocation) {
-      if (currentLocation!= null) {
-        setState(() {
-          _currentP =
-              LatLng(currentLocation.latitude!, currentLocation.longitude!);
-          print(_currentP);
+      setState(() {
+        _currentP =
+            LatLng(currentLocation.latitude!, currentLocation.longitude!);
+        print(_currentP);
 
-          // Update the marker position
-          markers[_currentLocationMarkerId] = Marker(
-            markerId: _currentLocationMarkerId,
-            icon: BitmapDescriptor.defaultMarker,
-            position: _currentP,
-          );
+        // Update the marker position
+        markers[_currentLocationMarkerId] = Marker(
+          markerId: _currentLocationMarkerId,
+          icon: BitmapDescriptor.defaultMarker,
+          position: _currentP,
+        );
 
-          // Check for deviation
-          checkDeviation();
+        // Check for deviation
+        checkDeviation();
+      });
         });
-      }
-    });
   }
 
   @override
@@ -533,9 +531,9 @@ class _MapPageState extends State<MapPage> {
     );
     if (result.points.isNotEmpty) {
       totalDistance = 0;
-      result.points.forEach((PointLatLng point) {
+      for (var point in result.points) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      });
+      }
     } else {
       print(result.errorMessage);
     }
@@ -552,7 +550,7 @@ class _MapPageState extends State<MapPage> {
   }
 
   void generatePolyLineFromPoints(List<LatLng> polylineCoordinates) async {
-    PolylineId id = PolylineId("poly");
+    PolylineId id = const PolylineId("poly");
     Polyline polyline = Polyline(
         polylineId: id,
         color: Colors.blue,
@@ -594,11 +592,11 @@ class _MapPageState extends State<MapPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("WARNING"),
+            title: const Text("WARNING"),
             content: Text("You have DEVIATED from the route by ${distance.toStringAsFixed(2)} km, kindly tell your driver or REPORT!"),
             actions: <Widget>[
               TextButton(
-                child: Text("OK"),
+                child: const Text("OK"),
                 onPressed: () {
                   Navigator.of(context).pop();
                   _dialogShown = true;

@@ -4,7 +4,7 @@ import 'package:flutter_application_1/pages/home_page.dart';
 import 'package:flutter_application_1/pages/map_page.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -97,10 +97,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(height: 15),
                       const Divider(height: 15, indent: 20, endIndent: 20),
                       const SizedBox(height: 15),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             'Notifications',
                             style: TextStyle(
                               fontSize: 20,
@@ -112,10 +112,10 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                       const SizedBox(height: 30),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             'Receive messages',
                             style: TextStyle(
                               fontSize: 20,
@@ -235,6 +235,8 @@ class _ProfilePageState extends State<ProfilePage> {
 }
 
 class ClickableCircle extends StatefulWidget {
+  const ClickableCircle({super.key});
+
   @override
   _ClickableCircleState createState() => _ClickableCircleState();
 }

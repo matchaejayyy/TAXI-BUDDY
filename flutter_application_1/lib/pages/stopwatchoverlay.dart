@@ -7,7 +7,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
 }
 
 class StopwatchOverlay extends StatefulWidget {
-  const StopwatchOverlay({Key? key}) : super(key: key);
+  const StopwatchOverlay({super.key});
 
   @override
   _StopwatchOverlayState createState() => _StopwatchOverlayState();
@@ -156,7 +156,7 @@ class CustomButton extends StatelessWidget {
   final Function onPress; // Made onPress required
   final String label;
 
-  const CustomButton({
+  const CustomButton({super.key, 
     this.color = Colors.blue,
     required this.onPress, // Made onPress required with closing parenthesis
     required this.label,
