@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Components/text_box.dart';
 import 'package:flutter_application_1/pages/activity_page.dart';
 import 'package:flutter_application_1/pages/home_page.dart';
 import 'package:flutter_application_1/pages/map_page.dart';
@@ -13,7 +15,48 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final currentUser = FirebaseAuth.instance.currentUser!;
+  final usersCollection = FirebaseFirestore.instance.collection("Users");
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  Future<void> editField(String field) async {
+    String newValue = "";
+    await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.grey[900],
+        title: Text(
+          "Edit $field",
+          style: const TextStyle(color: Colors.white),
+        ),
+        content: TextField(
+          autofocus: true,
+          style: const TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+            hintText: "Enter new $field",
+            hintStyle: const TextStyle(color: Colors.grey),
+          ),
+          onChanged: (value) {
+            newValue = value;
+          },
+        ),
+        actions: [
+          TextButton(
+            child: const Text('Cancel', style: TextStyle(color: Colors.white)),
+            onPressed: () => Navigator.pop(context),
+          ),
+          TextButton(
+            child: const Text('Save', style: TextStyle(color: Colors.white)),
+            onPressed: () => Navigator.of(context).pop(newValue),
+          ),
+        ],
+      ),
+    );
+    if (newValue.trim().length > 0) {
+      await usersCollection.doc(currentUser.email).update({field: newValue});
+    }
+  }
+
   int selectedIndex = 3;
 
   @override
@@ -44,109 +87,154 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(25),
-              children: [
-                Column(
-                  children: [
-                    Stack(
-                      alignment: AlignmentDirectional.bottomEnd,
-                      children: [
-                        SizedBox(
-                          height: 150,
-                          width: 150,
-                          child: Image.asset('assets/images/profile_pic.png'),
-                        ),
-                        Positioned(
-                          bottom: 10,
-                          right: 10,
-                          child: SizedBox(
-                            height: 30,
-                            width: 30,
-                            child: Image.asset('assets/images/edit_pic.png'),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Jane Dela Cruz',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 30),
-                Container(
-                  margin: const EdgeInsets.only(left: 0.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      profileInfo("Username: ", "Jane Dela Cruz"),
-                      const SizedBox(height: 30),
-                      profileInfo("Email: ", "janedelacruz@gmail.com"),
-                      const SizedBox(height: 30),
-                      profileInfo("Contact Number: ", "09090909090"),
-                      const SizedBox(height: 30),
-                      profileInfo("Address: ", "Iloilo City"),
-                      const SizedBox(height: 15),
-                      const Divider(height: 15, indent: 20, endIndent: 20),
-                      const SizedBox(height: 15),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: StreamBuilder<DocumentSnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection("Users")
+                      .doc(currentUser.email)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final userData =
+                          snapshot.data!.data() as Map<String, dynamic>;
+
+                      return ListView(
+                        padding: const EdgeInsets.all(25),
                         children: [
-                          Text(
-                            'Notifications',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
+                          Column(
+                            children: [
+                              Stack(
+                                alignment: AlignmentDirectional.bottomEnd,
+                                children: [
+                                  SizedBox(
+                                    height: 150,
+                                    width: 150,
+                                    child: Image.asset(
+                                        'assets/images/profile_pic.png'),
+                                  ),
+                                  Positioned(
+                                    bottom: 10,
+                                    right: 10,
+                                    child: SizedBox(
+                                      height: 30,
+                                      width: 30,
+                                      child: Image.asset(
+                                          'assets/images/edit_pic.png'),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Username",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Container(
+                            margin: const EdgeInsets.only(left: 0.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 0),
+                                  child: Text(
+                                    "User Details",
+                                    style: const TextStyle(color: Colors.grey),
+                                  ),
+                                ),
+                                MyTextBox(
+                                  text: userData['username'],
+                                  sectionName: 'username',
+                                  onPressed: () => editField('username'),
+                                ),
+                                MyTextBox(
+                                  text: userData['email'],
+                                  sectionName: 'email',
+                                  onPressed: () => editField('email'),
+                                ),
+                                MyTextBox(
+                                  text: userData['Phone Number'],
+                                  sectionName: 'phoneNumber',
+                                  onPressed: () => editField('phoneNumber'),
+                                ),
+                                MyTextBox(
+                                  text: 'Iloilo City',
+                                  sectionName: 'address',
+                                  onPressed: () => editField('address'),
+                                ),
+                                const SizedBox(height: 20),
+                                Divider(
+                                  thickness: 0.5,
+                                  color: Colors.black,
+                                ),
+                                const SizedBox(height: 20),
+                                const Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Notifications',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                    ClickableCircle(),
+                                  ],
+                                ),
+                                const SizedBox(height: 30),
+                                const Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Receive messages',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black87,
+                                      ),
+                                    ),
+                                    ClickableCircle(),
+                                  ],
+                                ),
+                                const SizedBox(height: 30),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    _auth.signOut();
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SplashScreen(),
+                                        ));
+                                  },
+                                  child: const Text("Logout"),
+                                ),
+                              ],
                             ),
                           ),
-                          ClickableCircle(),
                         ],
-                      ),
-                      const SizedBox(height: 30),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Receive messages',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87,
-                            ),
-                          ),
-                          ClickableCircle(),
-                        ],
-                      ),
-                      const SizedBox(height: 30),
-                      ElevatedButton(
-                        onPressed: () {
-                          _auth.signOut();
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SplashScreen(),
-                              ));
-                        },
-                        child: Text("Logout"),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text('Error${snapshot.error}'),
+                      );
+                    }
+
+                    return const Center(child: CircularProgressIndicator());
+                  })),
         ],
       ),
       bottomNavigationBar: SizedBox(

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/components/buttons.dart';
 import 'package:flutter_application_1/Components/My_Textfield.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function()? onTap;
@@ -20,17 +21,23 @@ class _RegisterPageState extends State<RegisterPage> {
   final passwordController = TextEditingController();
 
   // Sign up method
-  void signUserUp() async {
-    showDialog(
-      context: context,
-      builder: (context) => const Center(child: CircularProgressIndicator()),
-    );
-
+  Future<void> signUserUp() async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
+
+      await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(userCredential.user!.email)
+          .set({
+        'username': firstNameController.text,
+        'email': emailController.text,
+        'Phone Number': phoneNumberlController.text,
+      });
+
       // Registration successful (handle accordingly)
       Navigator.pop(context); // Remove loading indicator
     } on FirebaseAuthException catch (e) {
