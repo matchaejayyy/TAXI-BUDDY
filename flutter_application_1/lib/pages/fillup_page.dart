@@ -5,7 +5,7 @@ import 'package:flutter_application_1/Components/My_Textfield.dart';
 
 class Fillup extends StatefulWidget {
   final Function()? onTap;
-  const Fillup({super.key,  this.onTap});
+  const Fillup({super.key, this.onTap});
 
   @override
   State<Fillup> createState() => _FillupState();
@@ -138,3 +138,9 @@ class _FillupState extends State<Fillup> {
     );
   }
 }
+
+// keyboardType: TextInputType.number, 
+//                   inputFormatters: <TextInputFormatter> [
+//                     LengthLimitingTextInputFormatter(11),
+//                     FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+//                     FilteringTextInputFormatter.digitsOnly

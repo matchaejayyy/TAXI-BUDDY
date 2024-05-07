@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/LoginPage.dart';
 import 'package:flutter_application_1/pages/activity_page.dart';
 import 'package:flutter_application_1/pages/home_page.dart';
+import 'package:flutter_application_1/pages/login_or_register_page.dart';
 import 'package:flutter_application_1/pages/map_page.dart';
+import 'package:flutter_application_1/pages/splash_screen.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -11,6 +15,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   int selectedIndex = 3;
 
   @override
@@ -125,6 +130,18 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           ClickableCircle(),
                         ],
+                      ),
+                      const SizedBox(height: 30),
+                      ElevatedButton(
+                        onPressed: () {
+                          _auth.signOut();
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SplashScreen(),
+                              ));
+                        },
+                        child: Text("Logout"),
                       ),
                     ],
                   ),
