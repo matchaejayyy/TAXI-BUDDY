@@ -14,11 +14,13 @@ import 'package:flutter_application_1/pages/place_auto_complate_response.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_application_1/pages/stopwatchoverlay.dart';
+import 'fillup_page.dart';
 
 double totalDistance = 0.0;
 bool _dialogShown = false;
 
-typedef OnCoordinatesFetched = void Function(LatLng startLocation, LatLng endLocation);
+typedef OnCoordinatesFetched = void Function(
+    LatLng startLocation, LatLng endLocation);
 
 class TaxiBuddyHomePage extends StatefulWidget {
   const TaxiBuddyHomePage({super.key});
@@ -500,7 +502,7 @@ class _MapPageState extends State<MapPage> {
         // Check for deviation
         checkDeviation();
       });
-        });
+    });
   }
 
   @override
@@ -512,7 +514,7 @@ class _MapPageState extends State<MapPage> {
         icon: BitmapDescriptor.defaultMarker,
         position: startLocation,
       );
-     markers[_destinationLocationMarkerId] = Marker(
+      markers[_destinationLocationMarkerId] = Marker(
         markerId: _destinationLocationMarkerId,
         icon: BitmapDescriptor.defaultMarker,
         position: endLocation,
@@ -585,21 +587,31 @@ class _MapPageState extends State<MapPage> {
   }
 
   void checkDeviation() {
-    const double deviationThreshold = 1; 
+    const double deviationThreshold = 1;
     double distance = calculateDistance(_currentP, startLocation);
-    if (distance > deviationThreshold && !_dialogShown ) {
+    if (distance > deviationThreshold && !_dialogShown) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
+          _dialogShown = true;
           return AlertDialog(
             title: const Text("WARNING"),
-            content: Text("You have DEVIATED from the route by ${distance.toStringAsFixed(2)} km, kindly tell your driver or REPORT!"),
+            content: Text(
+                "You have DEVIATED from the route by ${distance.toStringAsFixed(2)} km, kindly tell your driver or REPORT!"),
             actions: <Widget>[
               TextButton(
-                child: const Text("OK"),
+                child: const Text("cancel"),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  _dialogShown = true;
+                },
+              ),
+              TextButton(
+                child: const Text("REPORT"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Fillup()),
+                  );
                 },
               ),
             ],

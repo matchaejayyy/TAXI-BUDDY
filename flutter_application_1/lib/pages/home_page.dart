@@ -93,14 +93,29 @@ class _HomePageState extends State<HomePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  buildFileColumn('taxi-home'),
-                  buildFileColumn('map-home'),
                   GestureDetector(
                     onTap: () {
-                    Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Fillup()),
-                     );
+                      _showComingSoonAlert(context);
+                    },
+                    child: buildFileColumn('taxi-home'),
+                  ),
+                  
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TaxiBuddyHomePage()),
+                      );
+                    },
+                    child: buildFileColumn('map-home'),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Fillup()),
+                      );
                     },
                     child: buildFileColumn('help-home'),
                   )
@@ -302,7 +317,8 @@ class _HomePageState extends State<HomePage> {
                 // Navigate to the Map page
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const TaxiBuddyHomePage()),
+                  MaterialPageRoute(
+                      builder: (context) => const TaxiBuddyHomePage()),
                 );
                 break;
               case 2:
@@ -410,6 +426,25 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
+  void _showComingSoonAlert(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Coming Soon'),
+        content: Text('This feature is coming soon!'),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Close'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
 
   Column buildFileColumn(String image) {
     return Column(
