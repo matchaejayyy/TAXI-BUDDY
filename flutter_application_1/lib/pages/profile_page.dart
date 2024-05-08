@@ -130,7 +130,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "Username",
+                                "",
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,

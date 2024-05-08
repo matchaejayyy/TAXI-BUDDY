@@ -495,7 +495,7 @@ class _MapPageState extends State<MapPage> {
         // Update the marker position
         markers[_currentLocationMarkerId] = Marker(
           markerId: _currentLocationMarkerId,
-          icon: BitmapDescriptor.defaultMarker,
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow),
           position: _currentP,
         );
 
