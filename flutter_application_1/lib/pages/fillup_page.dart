@@ -1,11 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_1/components/buttons.dart';
-import 'package:flutter_application_1/Components/My_Textfield.dart';
+import 'package:flutter_application_1/components/my_textfield.dart';
 
 class Fillup extends StatefulWidget {
   final Function()? onTap;
-  const Fillup({super.key, this.onTap});
+  const Fillup({Key? key, this.onTap}) : super(key: key);
 
   @override
   State<Fillup> createState() => _FillupState();
@@ -14,15 +14,36 @@ class Fillup extends StatefulWidget {
 class _FillupState extends State<Fillup> {
   // Controllers
   final nameController = TextEditingController();
-  final phoneNumberlController = TextEditingController();
+  final phoneNumberController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final plateNumberlController = TextEditingController();
-  final complainController = TextEditingController();
+  final plateNumberController = TextEditingController();
   final complain1Controller = TextEditingController();
 
-  // Sign up method
+  String? _selectedComplaint;
+
+  // check if all fields are filled
+  bool areAllFieldsFilled() {
+    return emailController.text.isNotEmpty &&
+        nameController.text.isNotEmpty &&
+        phoneNumberController.text.isNotEmpty &&
+        plateNumberController.text.isNotEmpty &&
+        complain1Controller.text.isNotEmpty &&
+        _selectedComplaint != null;
+  }
+
   void signUserUp() async {
+    if (!areAllFieldsFilled()) {
+      ScaffoldMessenger.of(context).removeCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Please fill up all fields'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     showDialog(
       context: context,
       builder: (context) => const Center(child: CircularProgressIndicator()),
@@ -102,21 +123,52 @@ class _FillupState extends State<Fillup> {
                 ),
                 const SizedBox(height: 15),
                 MyTextfield(
-                  controller: phoneNumberlController,
+                  controller: phoneNumberController,
                   hintText: 'Contact No.',
                   obscureText: false,
                 ),
                 const SizedBox(height: 15),
                 MyTextfield(
-                  controller: plateNumberlController,
+                  controller: plateNumberController,
                   hintText: 'Plaka ng Sinakyan',
                   obscureText: false,
                 ),
                 const SizedBox(height: 15),
-                MyTextfield(
-                  controller: complainController,
-                  hintText: 'Uri ng sumbong o reklamo',
-                  obscureText: false,
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey),
+                    color: Colors.white,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: _selectedComplaint,
+                            hint: Text('Uri ng sumbong o reklamo'),
+                            onChanged: (String? value) {
+                              setState(() {
+                                _selectedComplaint = value;
+                              });
+                            },
+                            items: <String>[
+                              'Fare (Pamasahe)',
+                              'Safety (Kaligtasan)',
+                              'Others (Iba pang bagay)'
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 15),
                 MyTextfield(
@@ -138,9 +190,3 @@ class _FillupState extends State<Fillup> {
     );
   }
 }
-
-// keyboardType: TextInputType.number, 
-//                   inputFormatters: <TextInputFormatter> [
-//                     LengthLimitingTextInputFormatter(11),
-//                     FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
-//                     FilteringTextInputFormatter.digitsOnly
