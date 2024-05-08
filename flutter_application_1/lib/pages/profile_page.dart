@@ -154,23 +154,23 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                                 MyTextBox(
                                   text: userData['username'],
-                                  sectionName: 'username',
-                                  onPressed: () => editField('username'),
+                                  sectionName: 'Username',
+                                  onPressed: () => editField('Username'),
                                 ),
                                 MyTextBox(
                                   text: userData['email'],
-                                  sectionName: 'email',
-                                  onPressed: () => editField('email'),
+                                  sectionName: 'Email',
+                                  onPressed: () => editField('Email'),
                                 ),
                                 MyTextBox(
                                   text: userData['Phone Number'],
-                                  sectionName: 'phoneNumber',
-                                  onPressed: () => editField('phoneNumber'),
+                                  sectionName: 'Phone Number',
+                                  onPressed: () => editField('Phone Number'),
                                 ),
                                 MyTextBox(
                                   text: 'Iloilo City',
-                                  sectionName: 'address',
-                                  onPressed: () => editField('address'),
+                                  sectionName: 'Address',
+                                  onPressed: () => editField('Address'),
                                 ),
                                 const SizedBox(height: 20),
                                 Divider(
