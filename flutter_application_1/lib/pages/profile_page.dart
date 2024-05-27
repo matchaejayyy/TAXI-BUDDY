@@ -14,33 +14,38 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
+//ang "USER" nga collection sa firebase
 class _ProfilePageState extends State<ProfilePage> {
   final currentUser = FirebaseAuth.instance.currentUser!;
   final usersCollection = FirebaseFirestore.instance.collection("Users");
 
+  // if mag change ka sng details sa profile
   final FirebaseAuth _auth = FirebaseAuth.instance;
   Future<void> editField(String field) async {
     String newValue = "";
+    // ga Show alert dialog to edit the field
     await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.grey[900],
         title: Text(
-          "Edit $field",
+          "Edit $field", // Display field name in title
           style: const TextStyle(color: Colors.white),
         ),
         content: TextField(
-          autofocus: true,
+          autofocus: true, // Focus on the text field automatically
           style: const TextStyle(color: Colors.white),
           decoration: InputDecoration(
-            hintText: "Enter new $field",
+            hintText: "Enter new $field", // Placeholder text
             hintStyle: const TextStyle(color: Colors.grey),
           ),
+          // Capture user input
           onChanged: (value) {
             newValue = value;
           },
         ),
         actions: [
+          // Cancel button
           TextButton(
             child: const Text('Cancel', style: TextStyle(color: Colors.white)),
             onPressed: () => Navigator.pop(context),
@@ -52,6 +57,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
     );
+    // Update the field in Firestore if there's a valid new value
     if (newValue.trim().length > 0) {
       await usersCollection.doc(currentUser.email).update({field: newValue});
     }
@@ -88,10 +94,11 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           Expanded(
               child: StreamBuilder<DocumentSnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection("Users")
-                      .doc(currentUser.email)
-                      .snapshots(),
+                  stream: FirebaseFirestore.instance // Stream from Firestore
+                      .collection("Users") // Access "Users" collection
+                      .doc(currentUser
+                          .email) // Get document for current user's email
+                      .snapshots(), // Listen for changes in the document
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       final userData =
@@ -130,7 +137,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                "",
+                                "Username",
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -152,13 +159,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                     style: const TextStyle(color: Colors.grey),
                                   ),
                                 ),
+                                // user data
                                 MyTextBox(
-                                  text: userData['username'],
+                                  text: userData['Username'],
                                   sectionName: 'Username',
                                   onPressed: () => editField('Username'),
                                 ),
                                 MyTextBox(
-                                  text: userData['email'],
+                                  text: userData['Email'],
                                   sectionName: 'Email',
                                   onPressed: () => editField('Email'),
                                 ),
