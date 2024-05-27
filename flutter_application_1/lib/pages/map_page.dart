@@ -16,7 +16,7 @@ import 'dart:convert';
 import 'package:flutter_application_1/pages/stopwatchoverlay.dart';
 import 'fillup_page.dart';
 
-double totalDistance = 0.0;
+double totalDistance = 0.0; //global variables
 bool _dialogShown = false;
 
 typedef OnCoordinatesFetched = void Function(
@@ -145,19 +145,18 @@ class _TaxiBuddyHomePageState extends State<TaxiBuddyHomePage> {
     );
   }
 }
-
-class LocationUtils {
+//wiegand
+class LocationUtils {  // retrieve coordinates from google api
   static Future<LatLng?> getCoordinates(
       TextEditingController controller) async {
     final address = controller.text;
-    const apiKey = GOOGLE_MAPS_API_KEY;
     final url =
-        'https://maps.googleapis.com/maps/api/geocode/json?address=$address&key=$apiKey';
+        'https://maps.googleapis.com/maps/api/geocode/json?address=$address&key=$GOOGLE_MAPS_API_KEY';
 
     final response = await http.get(Uri.parse(url));
 
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
+    if (response.statusCode == 200) { // success
+      final jsonData = jsonDecode(response.body); 
       final lat = jsonData['results'][0]['geometry']['location']['lat'];
       final lng = jsonData['results'][0]['geometry']['location']['lng'];
 
@@ -381,16 +380,16 @@ class _SearchLocationScreenState extends State<SearchLocationScreen> {
     }
   }
 
-  void selectLocation(String location, bool isStartingLocation) {
+  void selectLocation(String location, bool isStartingLocation) { //udpates the ui
     setState(() {
       if (isStartingLocation) {
         startingLocationController.text = location;
         print(location);
-        placePredictions = [];
+        placePredictions = []; //clear
       } else {
         destinationLocationController.text = location;
         print(location);
-        destinationPlacePredictions = [];
+        destinationPlacePredictions = []; //clear
       }
     });
   }
@@ -423,8 +422,7 @@ class _MapPageState extends State<MapPage> {
 
   final MarkerId _currentLocationMarkerId = const MarkerId("_currentLocation");
   final MarkerId _sourceLocationMarkerId = const MarkerId("_sourceLocation");
-  final MarkerId _destinationLocationMarkerId =
-      const MarkerId("_destinationLocation");
+  final MarkerId _destinationLocationMarkerId = const MarkerId("_destinationLocation");
 
   @override
   void initState() {
@@ -450,14 +448,14 @@ class _MapPageState extends State<MapPage> {
           initialCameraPosition:
               CameraPosition(target: startLocation, zoom: 12),
           markers: Set<Marker>.of(markers.values),
-          polylines: Set<Polyline>.of(polylines.values),
+          polylines: Set<Polyline>.of(polylines.values), // to have unique values only
         ),
         const Positioned(
           bottom: 0,
           left: 0,
           right: 60,
           child: Opacity(
-            opacity: 0.8, // Set the opacity value as needed
+            opacity: 0.8, 
             child: StopwatchOverlay(),
           ),
         ),
@@ -523,13 +521,13 @@ class _MapPageState extends State<MapPage> {
   }
 
   Future<List<LatLng>> getPolylinePoints() async {
-    List<LatLng> polylineCoordinates = [];
-    PolylinePoints polylinePoints = PolylinePoints();
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+    List<LatLng> polylineCoordinates = [];   
+    PolylinePoints polylinePoints = PolylinePoints(); //new instance
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates( // polylines between coordinate
       GOOGLE_MAPS_API_KEY,
-      PointLatLng(startLocation.latitude, startLocation.longitude), // ORIGIN
+      PointLatLng(startLocation.latitude, startLocation.longitude), // START
       PointLatLng(endLocation.latitude, endLocation.longitude), // DESTINATION
-      travelMode: TravelMode.driving,
+      travelMode: TravelMode.driving,  // driving api profile
     );
     if (result.points.isNotEmpty) {
       totalDistance = 0;
@@ -540,7 +538,7 @@ class _MapPageState extends State<MapPage> {
       print(result.errorMessage);
     }
 
-    if (totalDistance == 0) {
+    if (totalDistance == 0) { // this is where the total distance gets calculated
       for (var i = 0; i < polylineCoordinates.length - 1; i++) {
         totalDistance += calculateDistance(
             polylineCoordinates[i], polylineCoordinates[i + 1]);
@@ -551,7 +549,7 @@ class _MapPageState extends State<MapPage> {
     return polylineCoordinates;
   }
 
-  void generatePolyLineFromPoints(List<LatLng> polylineCoordinates) async {
+  void generatePolyLineFromPoints(List<LatLng> polylineCoordinates) async { //polylines
     PolylineId id = const PolylineId("poly");
     Polyline polyline = Polyline(
         polylineId: id,
@@ -563,7 +561,7 @@ class _MapPageState extends State<MapPage> {
     });
   }
 
-  double calculateDistance(LatLng point1, LatLng point2) {
+  double calculateDistance(LatLng point1, LatLng point2) { 
     var lat1 = point1.latitude;
     var lon1 = point1.longitude;
     var lat2 = point2.latitude;
@@ -593,6 +591,7 @@ class _MapPageState extends State<MapPage> {
       showDialog(
         context: context,
         builder: (BuildContext context) {
+
           _dialogShown = true;
           return AlertDialog(
             title: const Text("WARNING"),
