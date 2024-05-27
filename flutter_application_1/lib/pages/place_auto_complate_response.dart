@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'autocomplate_prediction.dart';
 
 /// The Autocomplete response contains place predictions and status
