@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-
+// Forgot password screen for password reset functionality
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
 
@@ -10,24 +10,30 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  // Text field controller for user email
   final _emailController = TextEditingController();
 
   @override
+  // gina clean up ya ang resources when the widget is disposed
   void dispose() {
     _emailController.dispose();
     super.dispose();
   }
 
+// Function to send password reset email
   Future<void> passwordReset() async {
     try {
+      // Send password reset email using Firebase Auth
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: _emailController.text.trim());
+      // ga Show success message after successful email sending
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('A password reset link has been sent to your email.'),
         ),
       );
     } on FirebaseAuthException {
+      // ga show siye error if invalid ang email
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Invalid Email"), // Display the error message
@@ -71,7 +77,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
             ),
             const SizedBox(height: 5),
-            
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: MaterialButton(
@@ -80,13 +85,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 child: const Text("Reset Password"),
               ),
             ),
-            
-            
           ],
         ),
       ),
     );
   }
 }
-
-  

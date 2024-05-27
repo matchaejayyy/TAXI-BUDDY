@@ -14,9 +14,12 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
+    // gina hide ya and system UI (like status bar and navigation bar))
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
+ // gina delay ya ng execution 
     Future.delayed(const Duration(seconds: 5), () {
+      // NAvigate if where makadto after sng splashscreen 
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (_) => const AuthPage(),
@@ -27,12 +30,14 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void dispose() {
+    // ginabalik ya ang system UI sa default
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: SystemUiOverlay.values);
     super.dispose();
   }
 
   @override
+// sa gif ni siyaaaa iya padding etc.
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(

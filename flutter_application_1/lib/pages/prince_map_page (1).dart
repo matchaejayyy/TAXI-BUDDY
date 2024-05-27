@@ -172,7 +172,8 @@ class _MapPageState extends State<MapPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text("Warning!"),
-          content: const Text("Taxi is getting farther from your desired location."),
+          content:
+              const Text("Taxi is getting farther from your desired location."),
           actions: <Widget>[
             TextButton(
               onPressed: () {

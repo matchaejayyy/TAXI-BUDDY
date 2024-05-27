@@ -5,7 +5,8 @@ import 'package:flutter_application_1/Components/My_Textfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegisterPage extends StatefulWidget {
-  final Function()? onTap;
+   // Callback function for navigation
+  final Function()? onTap; 
   const RegisterPage({super.key, required this.onTap});
 
   @override
@@ -13,7 +14,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  // Controllers
+   // Text field controllers para sa user input
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final phoneNumberlController = TextEditingController();
@@ -28,7 +29,7 @@ class _RegisterPageState extends State<RegisterPage> {
         email: emailController.text,
         password: passwordController.text,
       );
-
+    // ga create sng new document sa  "Users" collection sa firebase with user details
       await FirebaseFirestore.instance
           .collection("Users")
           .doc(userCredential.user!.email)
@@ -57,7 +58,7 @@ class _RegisterPageState extends State<RegisterPage> {
         default:
           message = 'Registration failed. Please try again.';
       }
-
+      // ga Show error message as a snackbar
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(message),
