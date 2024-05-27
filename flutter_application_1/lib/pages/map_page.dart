@@ -570,12 +570,12 @@ class _MapPageState extends State<MapPage> {
     var R = 6371; // Radius of the earth in km
     var dLat = _deg2rad(lat2 - lat1); // deg2rad below
     var dLon = _deg2rad(lon2 - lon1);
-    var a = sin(dLat / 2) * sin(dLat / 2) +
+    var a = sin(dLat / 2) * sin(dLat / 2) + //haversine formula
         cos(_deg2rad(lat1)) *
             cos(_deg2rad(lat2)) *
             sin(dLon / 2) *
             sin(dLon / 2);
-    var c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    var c = 2 * atan2(sqrt(a), sqrt(1 - a)); //angular distance
     var d = R * c; // Distance in km
     return d;
   }
