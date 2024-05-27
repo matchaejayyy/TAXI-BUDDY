@@ -523,7 +523,7 @@ class _MapPageState extends State<MapPage> {
   Future<List<LatLng>> getPolylinePoints() async { // #9 api will do the work for the points
     List<LatLng> polylineCoordinates = [];   
     PolylinePoints polylinePoints = PolylinePoints(); //new instance
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates( // 10 polylines between coordinate 
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates( // #10 polylines between coordinate 
       GOOGLE_MAPS_API_KEY,
       PointLatLng(startLocation.latitude, startLocation.longitude), // START
       PointLatLng(endLocation.latitude, endLocation.longitude), // DESTINATION
